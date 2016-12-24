@@ -104,7 +104,7 @@ $ adash deregistrate lozenge
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/adash.
+Bug reports and pull requests are welcome on GitHub at https://github.com/aycabta/adash.
 
 
 ## License
