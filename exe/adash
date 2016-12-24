@@ -66,6 +66,9 @@ def create_client_from_device(device)
     c.redirect_uri = device['redirect_uri']
     c.access_token = device['access_token']
     c.refresh_token = device['refresh_token']
+    c.client_id = Adash::Config.client_id
+    c.client_secret = Adash::Config.client_secret
+    c.redirect_uri = "http://localhost:#{Adash::Config.redirect_port}/"
     c.on_new_token = proc { |access_token, refresh_token|
       credentials = get_credentials
       updated_device = get_device_from_credentials(credentials, device['device_model'])
