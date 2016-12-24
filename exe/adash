@@ -9,6 +9,7 @@ require 'optparse'
 require 'readline'
 require 'fileutils'
 require 'yaml'
+require 'amazon-drs'
 
 opt = OptionParser.new
 
@@ -60,7 +61,7 @@ def save_credentials_without_device_model(device_model)
 end
 
 def create_client_from_device(device)
-  Adash::Client.new(device['device_model']) do |c|
+  AmazonDrs::Client.new(device['device_model']) do |c|
     c.authorization_code = device['authorization_code']
     c.serial = device['serial']
     c.redirect_uri = device['redirect_uri']
