@@ -50,6 +50,7 @@ module Adash
       </html>
       EOH
     end
+    private :render
 
     def amazon_authorization_url(device_model, serial)
       base = 'https://www.amazon.com/ap/oa?'
@@ -63,6 +64,7 @@ module Adash
       }
       "#{base}#{params.map{ |k, v| "#{k}=#{v}" }.join(?&)}"
     end
+    private :amazon_authorization_url
 
     def get_code
       t = Thread.new do
