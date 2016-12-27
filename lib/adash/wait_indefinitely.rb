@@ -38,6 +38,26 @@ module Adash
       })
     end
 
+    def get_code
+      t = Thread.new do
+        @code_mutex.synchronize {
+          # TODO: wait for WEBrick launch
+          Launchy.open("http://localhost:#{Adash::Config.redirect_port}/getting_started")
+          while @code_box.size == 0
+            @code_cv.wait(@code_mutex)
+            sleep 1
+            @server.shutdown
+          end
+        }
+      end
+      @server.start
+      @code_box.pop
+    end
+
+    def shutdown
+      @server.shutdown
+    end
+
     def render(content)
       <<~EOH
       <html>
@@ -65,25 +85,5 @@ module Adash
       "#{base}#{params.map{ |k, v| "#{k}=#{v}" }.join(?&)}"
     end
     private :amazon_authorization_url
-
-    def get_code
-      t = Thread.new do
-        @code_mutex.synchronize {
-          # TODO: wait for WEBrick launch
-          Launchy.open("http://localhost:#{Adash::Config.redirect_port}/getting_started")
-          while @code_box.size == 0
-            @code_cv.wait(@code_mutex)
-            sleep 1
-            @server.shutdown
-          end
-        }
-      end
-      @server.start
-      @code_box.pop
-    end
-
-    def shutdown
-      @server.shutdown
-    end
   end
 end
