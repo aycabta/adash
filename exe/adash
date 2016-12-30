@@ -33,7 +33,7 @@ unless argv.empty?
     device_model = argv.shift
     adash.drs_init(name, device_model, is_test)
   when 'list'
-    sub_list
+    adash.sub_list
   when 'deregistrate'
     if argv.size < 1
       puts 'Usage: adash deregistrate name'
