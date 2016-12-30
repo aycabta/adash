@@ -59,13 +59,26 @@ def run_sub_command(adash, subcmd, argv)
   end
 end
 
+def help
+  puts 'adash sub-command'
+  puts 'sub-commands:'
+  puts '  init'
+  puts '  list'
+  puts '  list-slot'
+  puts '  replenish'
+end
+
 opt = OptionParser.new
-opt.on('-h', '--help') { puts 'help' }
+opt.on('-h', '--help') {
+  help
+}
 
 adash = Adash::Access.new
 
 argv = opt.order(ARGV)
-unless argv.empty?
+if argv.empty?
+  help
+else
   subcmd = argv.shift
   ret = run_sub_command(adash, subcmd, argv)
   exit ret if ret != 0
