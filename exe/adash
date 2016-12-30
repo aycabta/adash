@@ -10,7 +10,7 @@ opt.on('-h', '--help') { puts 'help' }
 
 adash = Adash::Access.new
 
-def run_sub_command(subcmd, argv)
+def run_sub_command(adash, subcmd, argv)
   case subcmd
   when 'init'
     init_opt = OptionParser.new
@@ -67,6 +67,6 @@ end
 argv = opt.order(ARGV)
 unless argv.empty?
   subcmd = argv.shift
-  ret = run_sub_command(subcmd, argv)
+  ret = run_sub_command(adash, subcmd, argv)
   exit ret if ret != 0
 end
