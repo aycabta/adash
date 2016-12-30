@@ -8,7 +8,7 @@ require 'optparse'
 opt = OptionParser.new
 opt.on('-h', '--help') { puts 'help' }
 
-adash = Adash.new
+adash = Adash::Access.new
 
 argv = opt.order(ARGV)
 unless argv.empty?
