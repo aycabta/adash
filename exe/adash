@@ -31,7 +31,7 @@ unless argv.empty?
     end
     name = argv.shift
     device_model = argv.shift
-    adash.drs_init(name, device_model, is_test)
+    adash.sub_init(name, device_model, is_test)
   when 'list'
     adash.sub_list
   when 'deregistrate'
