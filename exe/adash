@@ -5,11 +5,6 @@ $: << File.expand_path("../../lib/", __FILE__)
 require 'adash'
 require 'optparse'
 
-opt = OptionParser.new
-opt.on('-h', '--help') { puts 'help' }
-
-adash = Adash::Access.new
-
 def run_sub_command(adash, subcmd, argv)
   case subcmd
   when 'init'
@@ -63,6 +58,11 @@ def run_sub_command(adash, subcmd, argv)
     2
   end
 end
+
+opt = OptionParser.new
+opt.on('-h', '--help') { puts 'help' }
+
+adash = Adash::Access.new
 
 argv = opt.order(ARGV)
 unless argv.empty?
