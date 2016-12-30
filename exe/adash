@@ -10,9 +10,7 @@ opt.on('-h', '--help') { puts 'help' }
 
 adash = Adash::Access.new
 
-argv = opt.order(ARGV)
-unless argv.empty?
-  subcmd = argv.shift
+def run_sub_command(subcmd, argv)
   case subcmd
   when 'init'
     init_opt = OptionParser.new
@@ -27,37 +25,48 @@ unless argv.empty?
     argv = init_opt.parse(argv)
     if argv.size < 2
       puts 'Usage: adash init name device_model'
-      exit 2
+      1
+    else
+      name = argv.shift
+      device_model = argv.shift
+      adash.sub_init(name, device_model, is_test)
     end
-    name = argv.shift
-    device_model = argv.shift
-    adash.sub_init(name, device_model, is_test)
   when 'list'
     adash.sub_list
   when 'deregistrate'
     if argv.size < 1
       puts 'Usage: adash deregistrate name'
-      exit 4
+      1
+    else
+      name = argv.shift
+      adash.sub_deregistrate(name)
     end
-    name = argv.shift
-    adash.sub_deregistrate(name)
   when 'list-slot'
     if argv.size < 1
       puts 'Usage: adash list-slot name'
-      exit 5
+      1
+    else
+      name = argv.shift
+      adash.sub_list_slot(name)
     end
-    name = argv.shift
-    adash.sub_list_slot(name)
   when 'replenish'
     if argv.size < 1
       puts 'Usage: adash replenish name [slot_id]'
-      exit 6
+      1
+    else
+      name = argv.shift
+      slot_id = argv.first&.start_with?('-') ? nil : argv.shift
+      adash.sub_replenish(name, slot_id)
     end
-    name = argv.shift
-    slot_id = argv.first&.start_with?('-') ? nil : argv.shift
-    adash.sub_replenish(name, slot_id)
   else
     $stderr.puts "no such subcommand: #{k}"
-    exit 1
+    2
   end
+end
+
+argv = opt.order(ARGV)
+unless argv.empty?
+  subcmd = argv.shift
+  ret = run_sub_command(subcmd, argv)
+  exit ret if ret != 0
 end

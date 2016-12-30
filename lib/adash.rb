@@ -18,12 +18,12 @@ module Adash
       hit = authorized_devices.find_index { |d| d['device_model'] == device_model }
       if hit
         puts "Adash knows device what is #{device_model}."
-        exit 3
+        return 3
       end
       hit = authorized_devices.find_index { |d| d['name'] == name }
       if hit
         puts "Adash knows device what is named #{name}."
-        exit 3
+        return 4
       end
       wi = Adash::WaitIndefinitely.new(device_model, serial)
       Signal.trap(:INT){ wi.shutdown }
@@ -41,6 +41,7 @@ module Adash
       save_credentials(credentials)
       client = create_client_from_device(new_device)
       client.get_token
+      0
     end
 
     def sub_list
@@ -51,24 +52,26 @@ module Adash
         puts "  serial: #{device['serial']}"
         puts '  THIS DEVICE IS TEST PURCHASE MODE' if device['is_test']
       end
+      0
     end
 
     def sub_deregistrate(name)
       device = get_device_by_name(name)
       unless device
         puts "Device #{name} not found"
-        exit 5
+        return 5
       end
       client = create_client_from_device(device)
       resp = client.deregistrate_device
       save_credentials_without_device_model(device['device_model'])
+      0
     end
 
     def sub_list_slot(name)
       device = get_device_by_name(name)
       unless device
         puts "Device #{name} not found"
-        exit 5
+        return 5
       end
       client = create_client_from_device(device)
       resp = client.subscription_info
@@ -79,13 +82,14 @@ module Adash
         puts "  available: #{available}"
         index =+ 1
       end
+      0
     end
 
     def sub_replenish(name, slot_id)
       device = get_device_by_name(name)
       unless device
         puts "Device #{name} not found"
-        exit 5
+        return 5
       end
       client = create_client_from_device(device)
       slot_id = select_slot_prompt(client) unless slot_id
@@ -100,6 +104,7 @@ module Adash
           puts 'The order is in progress.'
         end
       end
+      0
     end
 
     def generate_serial(device_model)
