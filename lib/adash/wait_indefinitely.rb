@@ -1,7 +1,6 @@
 require 'uri'
 require 'erb'
 require 'launchy'
-require 'adash/client'
 require 'adash/config'
 
 module Adash
