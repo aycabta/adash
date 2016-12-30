@@ -54,7 +54,7 @@ def run_sub_command(adash, subcmd, argv)
       adash.sub_replenish(name, slot_id)
     end
   else
-    $stderr.puts "no such subcommand: #{k}"
+    $stderr.puts "no such sub-command: #{subcmd}"
     2
   end
 end
