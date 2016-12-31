@@ -73,7 +73,7 @@ opt.on('-h', '--help') {
   help
 }
 
-adash = Adash::Access.new
+adash = Adash::Manager.new
 
 argv = opt.order(ARGV)
 if argv.empty?

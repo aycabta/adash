@@ -8,7 +8,7 @@ require 'amazon-drs'
 
 # TODO: Use each class for return
 module Adash
-  class Access
+  class Manager
     def initialize
     end
 
