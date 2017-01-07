@@ -77,7 +77,7 @@ module Adash
       client = create_client_from_device(device)
       resp = client.subscription_info
       index = 0
-      resp.json['slotsSubscriptionStatus'].each do |slot_id, available|
+      resp.slots.each do |slot_id, available|
         puts "---- #{index}"
         puts "* slot_id: #{slot_id}"
         puts "  available: #{available}"
