@@ -16,12 +16,12 @@ module Adash
       serial = generate_serial(device_model)
       credentials = get_credentials
       authorized_devices = credentials['authorized_devices']
-      hit = authorized_devices.find_index { |d| d['device_model'] == device_model }
+      hit = authorized_devices&.find_index { |d| d['device_model'] == device_model }
       if hit
         puts "Adash knows device what is #{device_model}."
         return 3
       end
-      hit = authorized_devices.find_index { |d| d['name'] == name }
+      hit = authorized_devices&.find_index { |d| d['name'] == name }
       if hit
         puts "Adash knows device what is named #{name}."
         return 4
