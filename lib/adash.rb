@@ -6,7 +6,6 @@ require 'fileutils'
 require 'yaml'
 require 'amazon-drs'
 
-# TODO: Use each class for return
 module Adash
   class Manager
     def initialize
@@ -99,7 +98,6 @@ module Adash
       client = create_client_from_device(device)
       slot_id = select_slot_prompt(client) unless slot_id
       resp = client.replenish(slot_id)
-      # TODO check class
       if resp.instance_of?(AmazonDrs::Replenish)
         puts "ERROR: #{resp.message}"
       else
