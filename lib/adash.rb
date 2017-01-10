@@ -38,7 +38,11 @@ module Adash
         'redirect_uri' => wi.redirect_uri
       }
       new_device['is_test'] = true if is_test
-      credentials['authorized_devices'] << new_device
+      if credentials['authorized_devices']
+        credentials['authorized_devices'] << new_device
+      else
+        credentials['authorized_devices'] = [new_device]
+      end
       save_credentials(credentials)
       client = create_client_from_device(new_device)
       client.get_token
