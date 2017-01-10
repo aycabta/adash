@@ -99,10 +99,11 @@ module Adash
       client = create_client_from_device(device)
       slot_id = select_slot_prompt(client) unless slot_id
       resp = client.replenish(slot_id)
-      if resp.json['message']
-        puts "ERROR: #{resp.json['message']}"
+      # TODO check class
+      if resp.instance_of?(AmazonDrs::Replenish)
+        puts "ERROR: #{resp.message}"
       else
-        case resp.json['detailCode']
+        case resp.detail_code
         when 'STANDARD_ORDER_PLACED'
           puts 'Succeeded to order.'
         when 'ORDER_INPROGRESS'
@@ -211,7 +212,7 @@ module Adash
 
     def select_slot_prompt(client)
       resp = client.subscription_info
-      slots = resp.json['slotsSubscriptionStatus'].select{ |k, v| v }
+      slots = resp.slots.select{ |k, v| v }
       if slots.size == 1
         return slots.keys.first
       end
