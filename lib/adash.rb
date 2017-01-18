@@ -67,7 +67,11 @@ module Adash
       end
       client = create_client_from_device(device)
       resp = client.deregistrate_device
-      save_credentials_without_device_model(device['device_model'])
+      if resp.instance_of?(AmazonDrs::Error)
+        STDERR.puts resp.inspect
+      else
+        save_credentials_without_device_model(device['device_model'])
+      end
       0
     end
 
