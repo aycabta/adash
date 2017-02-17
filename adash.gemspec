@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email         = ["aycabta@gmail.com"]
 
   spec.summary       = %q{Adash is a Dash Replenishment Service CLI client}
-  spec.description   = %Q{Adash is a Dash Replenishment Service CLI client.\nYou will login with OAuth (Login with Amazon) and replenish items.}
+  spec.description   = %Q{Adash is a Dash Replenishment Service CLI client.\nYou will login with OAuth (Login with Amazon) and replenish items.\n}
   spec.homepage      = "https://github.com/aycabta/adash"
   spec.license       = "MIT"
 
