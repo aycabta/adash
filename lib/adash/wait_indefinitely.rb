@@ -52,7 +52,6 @@ module Adash
     def get_code
       t = Thread.new do
         @code_mutex.synchronize {
-          # TODO: wait for WEBrick launch
           @start_mutex.synchronize {
             while @start_box.size == 0
               @start_cv.wait(@start_mutex)
