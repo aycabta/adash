@@ -16,7 +16,19 @@ module Adash
       @code_box = Queue.new
       @code_cv = ConditionVariable.new
       @code_mutex = Mutex.new
-      @server = WEBrick::HTTPServer.new({ :BindAddress => '127.0.0.1', :Port => Adash::Config.redirect_port })
+      @start_box = Queue.new
+      @start_cv = ConditionVariable.new
+      @start_mutex = Mutex.new
+      @server = WEBrick::HTTPServer.new({
+        :BindAddress => '127.0.0.1',
+        :Port => Adash::Config.redirect_port,
+        :StartCallback => proc {
+          @start_mutex.synchronize {
+            @start_box.push(true)
+            @start_cv.signal
+          }
+        }
+      })
       @server.mount_proc('/getting_started', proc { |req, res|
         res.content_type = 'text/html'
         content = %Q`<p>Please go to <a href="#{ERB::Util.html_escape(amazon_authorization_url(@device_model, @serial))}">initial tour</a>.</p>`
@@ -41,7 +53,12 @@ module Adash
       t = Thread.new do
         @code_mutex.synchronize {
           # TODO: wait for WEBrick launch
-          Launchy.open("http://localhost:#{Adash::Config.redirect_port}/getting_started")
+          @start_mutex.synchronize {
+            while @start_box.size == 0
+              @start_cv.wait(@start_mutex)
+            end
+            Launchy.open("http://localhost:#{Adash::Config.redirect_port}/getting_started")
+          }
           while @code_box.size == 0
             @code_cv.wait(@code_mutex)
             sleep 1
