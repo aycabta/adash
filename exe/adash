@@ -4,6 +4,7 @@ $: << File.expand_path("../../lib/", __FILE__)
 
 require 'adash'
 require 'optparse'
+require 'adash/config'
 
 def run_sub_command(adash, subcmd, argv)
   case subcmd
@@ -71,6 +72,10 @@ end
 opt = OptionParser.new
 opt.on('-h', '--help') {
   help
+}
+opt.on('-c', '--config CONFIGPATH') { |path|
+  puts "Use config file: #{path}"
+  Adash::Config.credentials_path = path
 }
 
 adash = Adash::Manager.new
