@@ -104,6 +104,12 @@ You can delete device from Adash and Amazon.
 $ adash deregistrate lozenge
 ```
 
+### `--credentials` Option
+
+You can specify credentials file path: `adash -c ~/foo/bar list`
+
+Default credentials file path is `~/.config/adash/credentials`.
+
 ## Contributing
 
 Bug reports and pull requests are welcome on GitHub at https://github.com/aycabta/adash.
