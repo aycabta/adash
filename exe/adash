@@ -74,8 +74,8 @@ opt = OptionParser.new
 opt.on('-h', '--help') {
   help_option = true
 }
-opt.on('-c', '--config CONFIGPATH') { |path|
-  puts "Use config file: #{path}"
+opt.on('-c', '--credentials CREDENTIALS_PATH') { |path|
+  puts "Use credentials file: #{path}"
   Adash::Config.credentials_path = path
 }
 
