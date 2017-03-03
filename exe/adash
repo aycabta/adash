@@ -69,9 +69,10 @@ def help
   puts '  replenish'
 end
 
+help_option = false
 opt = OptionParser.new
 opt.on('-h', '--help') {
-  help
+  help_option = true
 }
 opt.on('-c', '--config CONFIGPATH') { |path|
   puts "Use config file: #{path}"
@@ -81,7 +82,7 @@ opt.on('-c', '--config CONFIGPATH') { |path|
 adash = Adash::Manager.new
 
 argv = opt.order(ARGV)
-if argv.empty?
+if help_option || argv.empty?
   help
 else
   subcmd = argv.shift
