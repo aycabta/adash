@@ -1,6 +1,5 @@
 module Adash
   class Config
-
     open("#{File.expand_path('../../../data', __FILE__)}/client", 'r') do |f|
       @@client_id = f.readline.chomp
       @@client_secret = f.readline.chomp
