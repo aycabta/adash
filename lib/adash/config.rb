@@ -22,5 +22,9 @@ module Adash
     def self.credentials_path
       @@credentials_path
     end
+
+    def self.credentials_path=(new_path)
+      @@credentials_path = new_path
+    end
   end
 end
