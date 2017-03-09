@@ -67,6 +67,7 @@ def help
   puts '  list'
   puts '  list-slot'
   puts '  replenish'
+  puts '  deregistrate'
 end
 
 help_option = false
