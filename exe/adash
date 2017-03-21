@@ -54,6 +54,7 @@ def run_sub_command(adash, subcmd, argv)
       slot_id = argv.first&.start_with?('-') ? nil : argv.shift
       adash.sub_replenish(name, slot_id)
     end
+  # TODO: Add check token command
   else
     $stderr.puts "no such sub-command: #{subcmd}"
     2
