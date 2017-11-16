@@ -73,7 +73,7 @@ module Adash
       @server.shutdown
     end
 
-    def render(content)
+    private def render(content)
       <<~EOH
       <html>
         <head>
@@ -85,9 +85,8 @@ module Adash
       </html>
       EOH
     end
-    private :render
 
-    def amazon_authorization_url(device_model, serial)
+    private def amazon_authorization_url(device_model, serial)
       base = 'https://www.amazon.com/ap/oa?'
       params = {
         client_id: Adash::Config.client_id,
@@ -99,6 +98,5 @@ module Adash
       }
       "#{base}#{params.map{ |k, v| "#{k}=#{v}" }.join(?&)}"
     end
-    private :amazon_authorization_url
   end
 end

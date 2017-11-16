@@ -115,30 +115,27 @@ module Adash
       0
     end
 
-    def generate_serial(device_model)
+    private def generate_serial(device_model)
       orig = [('a'..'z'), ('A'..'Z'), ('0'..'9')].map { |i| i.to_a }.flatten
       random_suffix = (0...16).map { orig[rand(orig.size)] }.join
       "#{device_model}_#{Time.now.to_i}_#{random_suffix}"
     end
-    private :generate_serial
 
-    def get_credentials
+    private def get_credentials
       if File.exist?(Adash::Config.credentials_path)
         credentials = YAML.load_file(Adash::Config.credentials_path)
       else
         { 'authorized_devices' => [] }
       end
     end
-    private :get_credentials
 
-    def save_credentials(credentials)
+    private def save_credentials(credentials)
       open(Adash::Config.credentials_path, 'w') do |f|
         f.write(credentials.to_yaml)
       end
     end
-    private :save_credentials
 
-    def get_device_from_credentials(credentials, device_model)
+    private def get_device_from_credentials(credentials, device_model)
       i = credentials['authorized_devices'].find_index { |d| d['device_model'] == device_model }
       if i
         credentials['authorized_devices'][i]
@@ -146,9 +143,8 @@ module Adash
         nil
       end
     end
-    private :get_device_from_credentials
 
-    def save_credentials_with_device(credentials, device)
+    private def save_credentials_with_device(credentials, device)
       i = credentials['authorized_devices'].find_index { |d| d['device_model'] == device['device_model'] }
       if i
         credentials['authorized_devices'][i] = device
@@ -157,16 +153,14 @@ module Adash
       end
       save_credentials(credentials)
     end
-    private :save_credentials_with_device
 
-    def save_credentials_without_device_model(device_model)
+    private def save_credentials_without_device_model(device_model)
       credentials = get_credentials
       credentials['authorized_devices'] = credentials['authorized_devices'].delete_if { |d| d['device_model'] == device_model }
       save_credentials(credentials)
     end
-    private :save_credentials_without_device_model
 
-    def create_client_from_device(device)
+    private def create_client_from_device(device)
       AmazonDrs::Client.new(device['device_model']) do |c|
         c.authorization_code = device['authorization_code']
         c.serial = device['serial']
@@ -186,9 +180,8 @@ module Adash
         }
       end
     end
-    private :create_client_from_device
 
-    def get_device_by_name(name)
+    private def get_device_by_name(name)
       credentials = get_credentials
       hit = credentials['authorized_devices'].find_index { |d| d['name'] == name }
       if hit
@@ -197,9 +190,8 @@ module Adash
         nil
       end
     end
-    private :get_device_by_name
 
-    def show_slots(slots)
+    private def show_slots(slots)
       index = 0
       slots.each do |slot_id, available|
         puts
@@ -210,9 +202,8 @@ module Adash
         index =+ 1
       end
     end
-    private :show_slots
 
-    def select_slot_prompt(client)
+    private def select_slot_prompt(client)
       resp = client.subscription_info
       slots = resp.slots.select{ |k, v| v }
       if slots.size == 1
@@ -228,6 +219,5 @@ module Adash
         end
       end
     end
-    private :select_slot_prompt
   end
 end
