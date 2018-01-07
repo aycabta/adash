@@ -4,18 +4,6 @@ It's a CLI for Amazon Dash Replenishment Service.
 
 ## Installation
 
-Add this line to your application's Gemfile:
-
-```ruby
-gem 'adash'
-```
-
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
-
     $ gem install adash
 
 ## Usage
